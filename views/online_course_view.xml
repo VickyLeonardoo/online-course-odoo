@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="online_course_tree_view_id" model="ir.ui.view">
+        <field name="name">online_course_tree_view_id</field>
+        <field name="model">online.course</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <!-- <field name="application_date" /> -->
+                <!-- <field name="identity_no"/> -->
+                <field name="dob" />
+                <field name="status"></field>
+                <!-- <field name="gender"/> -->
+                <!-- <field name="email"/> -->
+                <!-- <field name="mobile" /> -->
+                <!-- <field name="age"/> -->
+            </tree>
+        </field>
+    </record>
+
+
+    <data>
+        <record model="ir.ui.view" id="res_partner_form_inherit">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="dob" />
+                    <field name="gender" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+    <record id="partner_tree_view_id" model="ir.ui.view">
+        <field name="name">partner_tree_view_id</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="mobile" />
+                <field name="website" />
+            </tree>
+        </field>
+    </record>
+
+    <data>
+
+        <record id="unique_sequence_id" model="ir.sequence">
+            <field name="name">unique_sequence_id</field>
+            <field name="code">your.sequence.code</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">REG/2023/</field>
+            <field name="padding">1</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+        <record id="online_course_form_view_id" model="ir.ui.view">
+            <field name="name">online_course_form_view_id</field>
+            <field name="model">online.course</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object" name="func_to_app" string="Application"
+                            class="oe-highlight" attrs="{'invisible': [('status', '!=', 'draft')]}"></button>
+                        <button type="object" name="func_to_conf" string="Confirm"
+                            class="oe-highlight"
+                            attrs="{'invisible': [('status', '!=', 'application')]}"></button>
+                        <button type="object" name="func_to_pay" string="Payment Receive"
+                            class="oe-highlight"
+                            attrs="{'invisible': [('status', '!=', 'confirm')]}"></button>
+                        <button type="object" name="func_to_acc" string="Accepted"
+                            class="oe-highlight"
+                            attrs="{'invisible': [('status', '!=', 'payment_receive')]}"></button>
+                        <field name="status" widget="statusbar"></field>
+                    </header>
+                    <sheet>
+                        <div>
+                            <strong>
+                                <field name="application_no" style="font-size: 24px;" widget="char"
+                                    readonly="1" />
+                            </strong>
+                        </div>
+                        <group>
+                            <group>
+                                <!-- <field name="application_no" style="font-size: 24px;"
+                                readonly="1" /> -->
+                                <field name="partner_id" widget="one2many_table"></field>
+                                <field name="name"></field>
+                                <field name="email"></field>
+                                <field name="mobile"></field>
+                            </group>
+                            <group>
+                                <field name="gender"></field>
+                                <field name="dob"></field>
+                                <field name="age"></field>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Order Line">
+                                <field name="order_line_ids" nolabel="1"
+                                    options="{'reload_on_button': True}">
+                                    <tree edit="true" editable="bottom" create="true" delete="true">
+                                        <field name="event_id" required="1"
+                                            domain="[('state', '=', 'confirm')]" />
+                                        <field name="price_unit" />
+                                        <field name="voucher_id" />
+                                        <field name="total_amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Invoice">
+                                <field name="invoice_ids" nolabel="1"
+                                    context="{'default_type': 'out_invoice', 'default_partner_id': partner_id, 'default_invoice_origin': name, 'form_view_ref': 'account.invoice_form'}"
+                                    options="{'no_create': True}" />
+                                <tree edit="true" editable="bottom" create="true" delete="true">
+                                    <field name="partner_id" />
+                                </tree>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+
+    <record id="online_course_form_view_inherit" model="ir.ui.view">
+        <field name="name">online.course.form.inherit</field>
+        <field name="model">online.course</field>
+        <field name="inherit_id" ref="online_course_form_view_id" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <data>
+        <record model="ir.ui.view" id="view_event_form_inherited">
+            <field name="name">event.event.form.inherited</field>
+            <field name="model">event.event</field>
+            <field name="inherit_id" ref="event.view_event_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/button[@name='button_cancel']" position="after">
+                    <button name="%(actions_online_course_mail_wizard_id)d" string="Email"
+                        type="action" class="oe_highlight" />
+                    <button name="generate_event_attendees_report" string="Report XLS"
+                        type="object" class="oe_highlight" />
+                    <button name="generate_attendees_report_pdf" string="Report PDF"
+                        type="object" class="oe_highlight" />
+                    <!-- <button name="actions_online_course_mail_wizard_id" type="action"
+                    string="Email"
+                        class="oe_highlight"></button> -->
+                </xpath>
+                <xpath expr="//group[field[@name='organizer_id']]//field[@name='organizer_id']"
+                    position="after">
+                    <field name="price_unit" string="Price Unit" />
+                    <field name="product_id" />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_event_send_email_wizard">
+            <field name="name">event.send.email.wizard</field>
+            <field name="model">event.event</field>
+            <field name="arch" type="xml">
+                <form string="Send Email">
+                    <footer>
+                        <button name="send_email" string="Send" type="object" class="oe_highlight" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+
+    <record id="online_course_mail_wizard_view_id" model="ir.ui.view">
+        <field name="name">online_course_mail_wizard_view_id</field>
+        <field name="model">online.course.mail</field>
+        <field name="priority">999</field>
+        <field name="arch" type="xml">
+            <form string="Send Email">
+                <group>
+                    <field name="email_to" placeholder="To" />
+                    <field name="email_subject" placeholder="Subject" />
+                    <field name="email_body" widget="html" placeholder="Body" />
+                </group>
+                <footer>
+                    <button name="online_course_mail_send_email" string="Send" type="object"
+                        class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <data>
+        <record id="birthday_email_template" model="mail.template">
+            <field name="name">Birthday Email Template</field>
+            <field name="subject">Selamat Ulang Tahun!</field>
+            <field name="email_from">${(object.company_id.email or 'noreply@example.com')}</field>
+            <field name="model_id" ref="model_res_partner" />
+            <field name="lang">${object.lang}</field>
+            <field name="body_html"><![CDATA[
+        <p>Halo ${object.name},</p>
+        <p>Selamat ulang tahun! Semoga hari Anda menyenangkan.</p>
+        <p>Ini adalah informasi mengenai partner:</p>
+        <ul>
+            <li>Nama: ${object.name}</li>
+            <li>Email: ${object.email}</li>
+            <li>Tanggal Lahir: ${object.dob}</li>
+        </ul>
+        <p>Terima kasih,</p>
+        <p>${object.company_id.name}</p>
+        ]]></field>
+        </record>
+    </data>
+
+    <record id="view_account_invoice_custom_tree" model="ir.ui.view">
+        <field name="name">Account Invoice Custom Tree</field>
+        <field name="model">account.invoice</field>
+        <field name="arch" type="xml">
+            <tree string="Account Invoice Custom">
+                <!-- Tambahkan field yang ingin ditampilkan -->
+                <field name="partner_id" />
+                <field name="date_invoice" />
+                <field name="payment_term_id"></field>
+                <field name="state" />
+                <field name="amount_total" />
+            </tree>
+        </field>
+    </record>
+
+    <data noupdate="1">
+        <record id="seq_invoice" model="ir.sequence">
+            <field name="name">Account Invoice Sequence</field>
+            <field name="code">account.invoice</field>
+            <field name="prefix">INV/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+
+
+</odoo>

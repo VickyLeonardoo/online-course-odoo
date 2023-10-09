@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="course_actions_id" model="ir.actions.act_window">
+        <field name="name">Courses</field>
+        <field name="res_model">online.course</field>
+    </record>
+
+<!--    <record id="course_record_rule" model="ir.rule">-->
+<!--        <field name="name">See Only His Record</field>-->
+<!--        <field name="model_id" ref="model_online_course"/>-->
+<!--        <field name="domain_force">[]</field>-->
+<!--        <field name="groups" eval="[(4, ref('group_admin_course'))]"/>-->
+<!--    </record>-->
+
+    <record id="list_actions_id" model="ir.actions.act_window">
+        <field name="name">List</field>
+        <field name="res_model">course.list</field>
+    </record>
+    <record id="partner_actions_id" model="ir.actions.act_window">
+        <field name="name">Partner</field>
+        <field name="res_model">res.partner</field>
+    </record>
+
+    <record id="partner_actions_id_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"></field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="online_course.partner_tree_view_id"></field>
+        <field name="act_window_id" ref="online_course.partner_actions_id"></field>
+    </record>
+ 
+    <record id="event_actions_id" model="ir.actions.act_window">
+        <field name="name">Event</field>
+        <field name="res_model">event.event</field>
+    </record>
+
+    <record id="voucher_actions_id" model="ir.actions.act_window">
+        <field name="name">Voucher</field>
+        <field name="res_model">online.course.voucher</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_event_send_email_wizard">
+        <field name="name">Send Email</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">event.event</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="online_course.view_event_send_email_wizard" />
+        <field name="target">new</field>
+    </record>
+
+    <record id="actions_online_course_mail_wizard_id" model="ir.actions.act_window">
+        <field name="name">Email</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">online.course.mail</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="online_course.online_course_mail_wizard_view_id"></field>
+        <field name="target">new</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">No Data</p>
+        </field>
+    </record>
+
+
+    <record id="action_online_course_invoice_tree" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <field name="view_type">form</field>
+        <field name="domain">[('type','=', 'out_invoice')]</field>
+        <field name="context">{'type':'out_invoice'}</field>
+
+    </record>
+    <record id="action_online_course_pre_app_tree_view" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="online_course.view_account_invoice_custom_tree" />
+        <field name="act_window_id" ref="action_online_course_invoice_tree" />
+    </record>
+    
+    <record id="action_online_course_pre_app_form_view" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="account.invoice_form" />
+        <field name="act_window_id" ref="action_online_course_invoice_tree" />
+    </record>
+
+    <record id="actions_online_course_attendees_id" model="ir.actions.act_window">
+        <field name="name">Attendees</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">event.registration</field>
+    </record>
+
+    <record id="actions_online_course_product_id" model="ir.actions.act_window">
+        <field name="name">Product</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.product</field>
+    </record>
+    
+</odoo>

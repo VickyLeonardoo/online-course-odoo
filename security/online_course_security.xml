@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="0">
+        <record id="group_admin_course" model="res.groups">
+            <field name="name">Admin Course</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+
+        <record id="course_record_rule" model="ir.rule">
+            <field name="name">See Only His Record</field>
+            <field name="model_id" ref="model_online_course"/>
+           <field name="domain_force">[('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_admin_course'))]"/>
+        </record>
+    </data>
+    
+
+</odoo>

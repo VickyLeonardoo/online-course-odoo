@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="parent_online_course_id" name="Courses" sequence="5" groups="group_admin_course" />
+    <menuitem id="child_algoritma_pembelian_id"
+        sequence="1"
+        name="Courses"
+        parent="online_course.parent_online_course_id"
+        action="online_course.course_actions_id"
+    />
+
+    <menuitem id="child_algoritma_list_course_id"
+        name="List"
+        sequence="2"
+        parent="online_course.parent_online_course_id"
+        action="online_course.list_actions_id" />
+
+    <menuitem id="child_online_course_partner_id"
+        name="Partner"
+        sequence="3"
+        parent="online_course.parent_online_course_id"
+        action="online_course.partner_actions_id"
+    />
+    <menuitem
+        id="child_online_course_event_id"
+        name="Event"
+        sequence="4"
+        parent="online_course.parent_online_course_id"
+        action="online_course.event_actions_id"
+    />
+
+    <menuitem
+        id="child_online_course_voucher_id"
+        name="Voucher List"
+        sequence="5"
+        parent="online_course.parent_online_course_id"
+        action="online_course.voucher_actions_id"
+    />
+
+    <menuitem
+        id="child_online_course_email_id"
+        name="Email"
+        sequence="6"
+        parent="online_course.parent_online_course_id"
+        action="online_course.actions_online_course_mail_wizard_id"
+    />
+
+    <menuitem
+        id="child_online_course_invoice_id"
+        name="Invoice"
+        sequence="7"
+        parent="online_course.parent_online_course_id"
+        action="account.action_invoice_tree"
+    />
+
+    <menuitem
+        id="child_online_course_attendees_id"
+        name="Attendees"
+        sequence="8"
+        parent="online_course.parent_online_course_id"
+        action="online_course.actions_online_course_attendees_id"
+    />
+
+    <menuitem
+        id="child_online_course_product_id"
+        name="Product"
+        sequence="9"
+        parent="online_course.parent_online_course_id"
+        action="online_course.actions_online_course_product_id"
+        />
+</odoo>

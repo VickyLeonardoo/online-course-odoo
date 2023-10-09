@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_online_course_online_course,online_course.online_course,model_online_course,,1,1,1,1
+access_online_course_course_list,online_course.course_list,model_course_list,,1,0,0,0
+access_online_course_online_partner,online_course.online_partner,model_online_partner,,1,0,0,0
+access_online_course_order_line,online_course.order_line,model_order_line,,1,1,1,1
+access_online_course_online_course_voucher,online_course.online_course_voucher,model_online_course_voucher,,1,1,1,1

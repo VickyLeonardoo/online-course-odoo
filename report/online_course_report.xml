@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+        id="menu_report_online_course_id"
+        model="event.event"
+        string="Print PDF"
+        report_type="qweb-pdf"
+        name="online_course.event_attendees_report_template"
+        file="online_course.event_attendees_report_template"
+    ></report>
+    
+    <template id="event_attendees_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="event">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <h2>
+                                <t t-esc="event.name" />
+                            </h2>
+                        </div>
+                        <page>
+                            <style>
+                                .table {
+                                border-collapse: collapse;
+                                width: 100%;
+                                }
+                                .table td {
+                                border: 1px solid black;
+                                padding: 8px;
+                                }
+                            </style>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Date Registration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t
+                                        t-foreach="event.registration_ids.filtered(lambda r: r.state == 'open')"
+                                        t-as="attendee">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="attendee.partner_id.name" />
+                                            </td>
+                                            <td>
+                                                <t t-esc="attendee.partner_id.email" />
+                                            </td>
+                                            <td>
+                                                <t t-esc="attendee.partner_id.phone" />
+                                            </td>
+                                            <td>
+                                                <t t-esc="attendee.date_open" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </page>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
